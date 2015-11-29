@@ -69,8 +69,6 @@ public:
     bstdata minimum();
     bstdata maximum();
     void levelOrderPrint();
-    
-    
 };
 
 template <class bstdata>

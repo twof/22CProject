@@ -52,8 +52,8 @@ private:
         bool operator<=(const Country *&rightCountry){
             return sortSwitch(this, rightCountry, GTE);
         }
-        ostream& operator<< (ostream& os){
-            os << this->countryName << " is rank " << this->rank;
+        friend ostream& operator<< (ostream& os, Country const *rightCountry){
+            os << rightCountry->countryName << " is rank " << rightCountry->rank << " with " << rightCountry->gold << " gold medals, " << rightCountry->silver << " silver medals, and " << rightCountry->bronze << " bronze medals.";
             return os;
         }
         
@@ -132,6 +132,8 @@ public:
     void printByCountry();
     void printByRank();
     void menu();
+    void getCountry(string name);
+    void getCountry(int rank);
     
 };
 
