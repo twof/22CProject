@@ -73,24 +73,48 @@ public:
 
 template <class bstdata>
 void BST<bstdata>::addValue(Nodeptr root, bstdata value){
-    if (value == root->data){
-        return;
-        cout << "AddValue: Item is already in tree" << endl;
-    }
-    
-    if (value < root->data){
-        if(root->left == NULL){
-            root->left = new Node(value);
-            size++;
+    if (is_pointer<bstdata>::value) {
+        if (*value == *root->data){
+            cout << "AddValue: Item is already in tree" << endl;
+            return;
+        }
+        
+        if (*value < *root->data){
+            if(root->left == NULL){
+                root->left = new Node(value);
+                size++;
+            }else{
+                addValue(root->left, value);
+            }
         }else{
-            addValue(root->left, value);
+            if (root->right == NULL){
+                root->right = new Node(value);
+                size++;
+            }else{
+                addValue(root->right, value);
+            }
         }
     }else{
-        if (root->right == NULL){
-            root->right = new Node(value);
-            size++;
+        
+        if (value == root->data){
+            cout << "AddValue: Item is already in tree" << endl;
+            return;
+        }
+        
+        if (value < root->data){
+            if(root->left == NULL){
+                root->left = new Node(value);
+                size++;
+            }else{
+                addValue(root->left, value);
+            }
         }else{
-            addValue(root->right, value);
+            if (root->right == NULL){
+                root->right = new Node(value);
+                size++;
+            }else{
+                addValue(root->right, value);
+            }
         }
     }
 }
@@ -256,62 +280,122 @@ bool BST<bstdata>::contains(bstdata data){
 
 template <class bstdata>
 bool BST<bstdata>::containsValue(Nodeptr root, bstdata data){
-    if (root->data == data) {
-        return true;
-    }
-    if (root->data > data) {
-        if (root->left == NULL) {
-            return false;
+    if (is_pointer<bstdata>::value) {
+        if (*root->data == *data) {
+            return true;
+        }
+        if (*root->data > *data) {
+            if (root->left == NULL) {
+                return false;
+            }else{
+                if(containsValue(root->left, data)){
+                    return true;
+                }
+            }
         }else{
-            if(containsValue(root->left, data)){
-                return true;
+            if (root->right == NULL) {
+                return false;
+            }else{
+                if(containsValue(root->right, data)){
+                    return true;
+                }
             }
         }
-    }else if (root->data < data){
-        if (root->right == NULL) {
-            return false;
-        }else{
-            if(containsValue(root->right, data)){
-                return true;
+        return false;
+    }else{
+        if (root->data == data) {
+            return true;
+        }
+        if (root->data > data) {
+            if (root->left == NULL) {
+                return false;
+            }else{
+                if(containsValue(root->left, data)){
+                    return true;
+                }
+            }
+        }else if (root->data < data){
+            if (root->right == NULL) {
+                return false;
+            }else{
+                if(containsValue(root->right, data)){
+                    return true;
+                }
             }
         }
+        return false;
     }
-    return false;
 }
 
 template <class bstdata>
 void BST<bstdata>::removeValue(Nodeptr root, bstdata value, Nodeptr prevSave){
-    if (root == NULL) {
-        cout << "Remove: The value doesn't exist in the tree." << endl;
-        return;
-    }else if (value < root->data){
-        removeValue(root->left, value, root);
-    }else if (value > root->data){
-        removeValue(root->right, value, root);
-    }else{
-        if (root->right == NULL && root->left == NULL){
-            delete root;
-            if (prevSave->left == root) {
-                prevSave->left = NULL;
-            }else{
-                prevSave->right = NULL;
-            }
-            size--;
-        }else if (root->left == NULL && root->right != NULL){
-            Nodeptr temp = root;
-            root = root->left;
-            delete temp;
-            size--;
-        }else if (root->left != NULL && root->right == NULL){
-            Nodeptr temp = root;
-            root = root->right;
-            delete temp;
-            size--;
-        }else{
-            bstdata minRight = findMin(root->right);
-            root->data = minRight;
-            removeValue(root->right, minRight, root);
+    if (is_pointer<bstdata>::value) {
+        if (root == NULL) {
+            cout << "Remove: The value doesn't exist in the tree." << endl;
             return;
+        }else if (*value < *root->data){
+            removeValue(root->left, value, root);
+        }else if (*value > *root->data){
+            removeValue(root->right, value, root);
+        }else{
+            if (root->right == NULL && root->left == NULL){
+                delete root;
+                if (prevSave->left == root) {
+                    prevSave->left = NULL;
+                }else{
+                    prevSave->right = NULL;
+                }
+                size--;
+            }else if (root->left == NULL && root->right != NULL){
+                Nodeptr temp = root;
+                root = root->left;
+                delete temp;
+                size--;
+            }else if (root->left != NULL && root->right == NULL){
+                Nodeptr temp = root;
+                root = root->right;
+                delete temp;
+                size--;
+            }else{
+                bstdata minRight = findMin(root->right);
+                root->data = minRight;
+                removeValue(root->right, minRight, root);
+                return;
+            }
+        }
+    }else{
+        if (root == NULL) {
+            cout << "Remove: The value doesn't exist in the tree." << endl;
+            return;
+        }else if (value < root->data){
+            removeValue(root->left, value, root);
+        }else if (value > root->data){
+            removeValue(root->right, value, root);
+        }else{
+            if (root->right == NULL && root->left == NULL){
+                delete root;
+                if (prevSave->left == root) {
+                    prevSave->left = NULL;
+                }else{
+                    prevSave->right = NULL;
+                }
+                size--;
+            }else if (root->left == NULL && root->right != NULL){
+                Nodeptr temp = root;
+                root = root->left;
+                delete temp;
+                size--;
+            }else if (root->left != NULL && root->right == NULL){
+                Nodeptr temp = root;
+                root = root->right;
+                delete temp;
+                size--;
+            }else{
+                bstdata minRight = findMin(root->right);
+                root->data = minRight;
+                removeValue(root->right, minRight, root);
+                return;
+            }
         }
     }
 }

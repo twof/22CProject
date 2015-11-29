@@ -9,7 +9,7 @@
 #include "OMRA.hpp"
 
 //Private
-void OMRA::rankingHelper(OMRA::Country *&country){
+void OMRA::rankingHelper(OMRA::Country *country){
     bool hasInserted = false;
     if (rankList.size() == 0) {
         rankList.insert(rankList.begin(), country);
@@ -83,3 +83,5 @@ void OMRA::printByCountry(){
     countryTree.inOrderPrint();
 }
 
+void OMRA::testMethod(){
+}

@@ -1,4 +1,4 @@
-//
+;//
 //  OMRA.hpp
 //  22CProject
 //
@@ -15,42 +15,44 @@
 class OMRA {
 private:
     struct Country{
+        enum Comparison{
+            GT, //Greater than (>)
+            LT, //Less than (<)
+            ET, //Equal to (==)
+            NET, //Not equal to (!=)
+            LTE, //Less than or equal to (<=)
+            GTE //Greater than or equal to (>=)
+        };
+
         string countryName;
         int rank;
         int gold;
         int silver;
         int bronze;
+        bool (*sortSwitch) (Country, const Country, Comparison);
         
-        enum Comparison{
-            GT, //Greater than (>)
-            LT, //
-            ET,
-            NET,
-            LTE,
-            GTE
-        };
         
         
         Country(): countryName(""), rank(NULL), gold(NULL), silver(NULL), bronze(NULL){}
-        Country(string ncountry, int ngold, int nsilver, int nbronze): countryName(ncountry), rank(NULL), gold(ngold), silver(nsilver), bronze(nbronze) {}
+        Country(string ncountry, int ngold, int nsilver, int nbronze): countryName(ncountry), rank(NULL), gold(ngold), silver(nsilver), bronze(nbronze), sortSwitch(NULL){}
         
-        bool operator==(const Country *&rightCountry){
-            return sortSwitch(this, rightCountry, ET);
+        bool operator==(const Country &rightCountry){
+            return sortSwitch(*this, rightCountry, ET);
         }
-        bool operator!=(const Country *&rightCountry){
-            return sortSwitch(this, rightCountry, NET);
+        bool operator!=(const Country &rightCountry){
+            return sortSwitch(*this, rightCountry, NET);
         }
-        bool operator>(const Country *&rightCountry){
-            return sortSwitch(this, rightCountry, GT);
+        bool operator>(const Country &rightCountry){
+            return sortSwitch(*this, rightCountry, GT);
         }
-        bool operator<(const Country *&rightCountry){
-            return sortSwitch(this, rightCountry, LT);
+        bool operator<(const Country &rightCountry){
+            return sortSwitch(*this, rightCountry, LT);
         }
-        bool operator>=(const Country *&rightCountry){
-            return sortSwitch(this, rightCountry, LTE);
+        bool operator>=(const Country &rightCountry){
+            return sortSwitch(*this, rightCountry, GTE);
         }
-        bool operator<=(const Country *&rightCountry){
-            return sortSwitch(this, rightCountry, GTE);
+        bool operator<=(const Country &rightCountry){
+            return sortSwitch(*this, rightCountry, LTE);
         }
         
         friend ostream& operator<< (ostream& os, Country const *rightCountry){
@@ -58,27 +60,25 @@ private:
             return os;
         }
         
-        bool (*sortSwitch) (Country*, const Country*, Comparison) = NULL;
-        
-        static bool rankComparison (Country *leftCountry, const Country *rightCountry, Comparison compType){
+        static bool rankComparison (Country leftCountry, const Country rightCountry, Comparison compType){
             switch(compType){
                 case LT:
-                    return leftCountry->rank < rightCountry->rank;
+                    return leftCountry.rank < rightCountry.rank;
                     break;
                 case GT:
-                    return leftCountry->rank > rightCountry->rank;
+                    return leftCountry.rank > rightCountry.rank;
                     break;
                 case ET:
-                    return leftCountry->rank == rightCountry->rank;
+                    return leftCountry.rank == rightCountry.rank;
                     break;
                 case NET:
-                    return leftCountry->rank != rightCountry->rank;
+                    return leftCountry.rank != rightCountry.rank;
                     break;
                 case LTE:
-                    return leftCountry->rank >= rightCountry->rank;
+                    return leftCountry.rank >= rightCountry.rank;
                     break;
                 case GTE:
-                    return leftCountry->rank <= rightCountry->rank;
+                    return leftCountry.rank <= rightCountry.rank;
                     break;
                 default:
                     cout << "Hit default case somehow" << endl;
@@ -86,25 +86,25 @@ private:
                     break;
             }
         }
-        static bool nameComparison (Country *leftCountry, const Country *rightCountry, Comparison compType){
+        static bool nameComparison (Country leftCountry, const Country rightCountry, Comparison compType){
             switch(compType){
                 case LT:
-                    return leftCountry->countryName < rightCountry->countryName;
+                    return leftCountry.countryName < rightCountry.countryName;
                     break;
                 case GT:
-                    return leftCountry->countryName > rightCountry->countryName;
+                    return leftCountry.countryName > rightCountry.countryName;
                     break;
                 case ET:
-                    return leftCountry->countryName == rightCountry->countryName;
+                    return leftCountry.countryName == rightCountry.countryName;
                     break;
                 case NET:
-                    return leftCountry->countryName != rightCountry->countryName;
+                    return leftCountry.countryName != rightCountry.countryName;
                     break;
                 case LTE:
-                    return leftCountry->countryName >= rightCountry->countryName;
+                    return leftCountry.countryName >= rightCountry.countryName;
                     break;
                 case GTE:
-                    return leftCountry->countryName <= rightCountry->countryName;
+                    return leftCountry.countryName <= rightCountry.countryName;
                     break;
                 default:
                     cout << "Hit default case somehow" << endl;
@@ -119,7 +119,7 @@ private:
     BST<Country*> countryTree;
     vector<Country*> rankList;
     
-    void rankingHelper(Country *&country);
+    void rankingHelper(Country *country);
     
 public:
     OMRA();
@@ -135,6 +135,7 @@ public:
     void menu();
     void getCountry(string name);
     void getCountry(int rank);
+    void testMethod();
     
 };
 
