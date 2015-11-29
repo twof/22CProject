@@ -22,8 +22,8 @@ private:
         int bronze;
         
         enum Comparison{
-            GT,
-            LT,
+            GT, //Greater than (>)
+            LT, //
             ET,
             NET,
             LTE,
@@ -52,12 +52,13 @@ private:
         bool operator<=(const Country *&rightCountry){
             return sortSwitch(this, rightCountry, GTE);
         }
+        
         friend ostream& operator<< (ostream& os, Country const *rightCountry){
             os << rightCountry->countryName << " is rank " << rightCountry->rank << " with " << rightCountry->gold << " gold medals, " << rightCountry->silver << " silver medals, and " << rightCountry->bronze << " bronze medals.";
             return os;
         }
         
-        bool (*sortSwitch) (Country*, const Country*, Comparison);
+        bool (*sortSwitch) (Country*, const Country*, Comparison) = NULL;
         
         static bool rankComparison (Country *leftCountry, const Country *rightCountry, Comparison compType){
             switch(compType){
@@ -118,7 +119,7 @@ private:
     BST<Country*> countryTree;
     vector<Country*> rankList;
     
-    void rankingHelper(Country* country);
+    void rankingHelper(Country *&country);
     
 public:
     OMRA();

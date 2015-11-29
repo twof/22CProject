@@ -75,6 +75,7 @@ template <class bstdata>
 void BST<bstdata>::addValue(Nodeptr root, bstdata value){
     if (value == root->data){
         return;
+        cout << "AddValue: Item is already in tree" << endl;
     }
     
     if (value < root->data){
