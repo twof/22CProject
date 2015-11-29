@@ -9,7 +9,7 @@
 #include "OMRA.hpp"
 
 //Private
-void OMRA::rankingHelper(OMRA::Country country){
+/*void OMRA::rankingHelper(OMRA::Country country){
     for (int x = 0; x < rankList.size(); x++) {
         
         if (country.gold <= rankList[x].gold){
@@ -31,7 +31,7 @@ void OMRA::rankingHelper(OMRA::Country country){
             continue;
         }
     }
-}
+}*/
 
 //Public'
 
@@ -44,15 +44,19 @@ OMRA::~OMRA(){
 }
 
 void OMRA::addNewCountry(string name, int goldMedalCount, int silverMedalCount, int bronzeMedalCount){
-    Country newCountry(name, goldMedalCount, silverMedalCount, bronzeMedalCount);
-    rankingHelper(newCountry);
+    Country *newCountry = new Country(name, goldMedalCount, silverMedalCount, bronzeMedalCount);
+    /*rankingHelper(newCountry);
     newCountry.sortSwitch = newCountry.rankComparison;
-    rankTree.add(&newCountry);
-    newCountry.sortSwitch = newCountry.countryComparison;
-    countryTree.add(<#OMRA::Country *value#>)
+    rankTree.add(&newCountry);*/
+    newCountry->sortSwitch = newCountry->nameComparison;
+    countryTree.add(newCountry);
 }
 
 void OMRA::printByRank(){
     rankTree.inOrderPrint();
+}
+
+void OMRA::printByCountry(){
+    countryTree.inOrderPrint();
 }
 

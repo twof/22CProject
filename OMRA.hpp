@@ -21,41 +21,96 @@ private:
         int silver;
         int bronze;
         
+        enum Comparison{
+            GT,
+            LT,
+            ET,
+            NET,
+            LTE,
+            GTE
+        };
+        
         
         Country(): countryName(""), rank(NULL), gold(NULL), silver(NULL), bronze(NULL){}
         Country(string ncountry, int ngold, int nsilver, int nbronze): countryName(ncountry), rank(NULL), gold(ngold), silver(nsilver), bronze(nbronze) {}
-        bool operator==(const Country &rightCountry){
-            return this->rank == rightCountry.rank;
+        
+        bool operator==(const Country *&rightCountry){
+            return sortSwitch(this, rightCountry, ET);
         }
-        bool operator!=(const Country &rightCountry){
-            return this->rank != rightCountry.rank;
+        bool operator!=(const Country *&rightCountry){
+            return sortSwitch(this, rightCountry, NET);
         }
-        bool operator>(const Country &rightCountry){
-            return sortSwitch(*this, rightCountry);
+        bool operator>(const Country *&rightCountry){
+            return sortSwitch(this, rightCountry, GT);
         }
-        bool operator<(const Country &rightCountry){
-            return this->rank < rightCountry.rank;
+        bool operator<(const Country *&rightCountry){
+            return sortSwitch(this, rightCountry, LT);
         }
-        bool operator>=(const Country &rightCountry){
-            return this->rank >= rightCountry.rank;
+        bool operator>=(const Country *&rightCountry){
+            return sortSwitch(this, rightCountry, LTE);
         }
-        bool operator<=(const Country &rightCountry){
-            return this->rank <= rightCountry.rank;
+        bool operator<=(const Country *&rightCountry){
+            return sortSwitch(this, rightCountry, GTE);
         }
-        friend ostream& operator<<(std::ostream& os, const Country &country){
-            os << country.countryName << " is rank " << country.rank;
+        ostream& operator<< (ostream& os){
+            os << this->countryName << " is rank " << this->rank;
             return os;
         }
         
-        bool (*sortSwitch) (const Country&, const Country&) = NULL;
+        bool (*sortSwitch) (Country*, const Country*, Comparison);
         
-        static bool rankComparison (const Country& leftCountry, const Country& rightCountry){
-            return leftCountry.rank > rightCountry.rank;
+        static bool rankComparison (Country *leftCountry, const Country *rightCountry, Comparison compType){
+            switch(compType){
+                case LT:
+                    return leftCountry->rank < rightCountry->rank;
+                    break;
+                case GT:
+                    return leftCountry->rank > rightCountry->rank;
+                    break;
+                case ET:
+                    return leftCountry->rank == rightCountry->rank;
+                    break;
+                case NET:
+                    return leftCountry->rank != rightCountry->rank;
+                    break;
+                case LTE:
+                    return leftCountry->rank >= rightCountry->rank;
+                    break;
+                case GTE:
+                    return leftCountry->rank <= rightCountry->rank;
+                    break;
+                default:
+                    cout << "Hit default case somehow" << endl;
+                    return false;
+                    break;
+            }
         }
-        static bool nameComparison (const Country& leftCountry, const Country& rightCountry){
-            return leftCountry.countryName > rightCountry.countryName;
+        static bool nameComparison (Country *leftCountry, const Country *rightCountry, Comparison compType){
+            switch(compType){
+                case LT:
+                    return leftCountry->countryName < rightCountry->countryName;
+                    break;
+                case GT:
+                    return leftCountry->countryName > rightCountry->countryName;
+                    break;
+                case ET:
+                    return leftCountry->countryName == rightCountry->countryName;
+                    break;
+                case NET:
+                    return leftCountry->countryName != rightCountry->countryName;
+                    break;
+                case LTE:
+                    return leftCountry->countryName >= rightCountry->countryName;
+                    break;
+                case GTE:
+                    return leftCountry->countryName <= rightCountry->countryName;
+                    break;
+                default:
+                    cout << "Hit default case somehow" << endl;
+                    return false;
+                    break;
+            }
         }
-        
     };
     
     
