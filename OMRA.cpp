@@ -5,6 +5,8 @@
 //  Created by fnord on 11/24/15.
 //  Copyright © 2015 fnord. All rights reserved.
 //
+#include <fstream>
+#include <sstream>
 
 #include "OMRA.hpp"
 
@@ -56,6 +58,20 @@ void OMRA::rankingHelper(OMRA::Country *country){
     }
 }
 
+/*vector<string> OMRA::tokenizeCSVLine(istream &is){
+    vector<string> result;
+    string line;
+    getline(is,line);
+    
+    stringstream lineStream(line);
+    string cell;
+    
+    while(getline(lineStream,cell,',')){
+        result.push_back(cell);
+    }
+    return result;
+}*/
+
 //Public'
 
 OMRA::OMRA(){
@@ -88,9 +104,47 @@ int OMRA::findRank(string name) {
     return dummyCountry->rank;
 }
 
+bool OMRA::initializeFromFile(string filePath){
+    ifstream file;
+    file.open(filePath);
+    string line;
+    if (file.is_open()) {
+        while (getline(file,line)) {
+            vector<string> result;
+            
+            stringstream lineStream(line);
+            string cell;
+            
+            while(getline(lineStream,cell,',')){
+                result.push_back(cell);
+            }
+
+            addNewCountry(result[0], stoi(result[2]), stoi(result[3]), stoi(result[4]));
+        }
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+bool OMRA::exportToFile(string filePath){
+    ofstream saveFile;
+    saveFile.open(filePath);
+    if(saveFile.is_open()){
+        for (int i = 0; i < rankList.size(); i++) {
+            saveFile << rankList[i]->countryName << ", " << rankList[i]->rank << ", " << rankList[i]->gold << ", " << rankList[i]->silver << ", " << rankList[i]->bronze << endl;
+        }
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+
 
 void OMRA::menu() {
-    system("CLS");
     int choice = 0;
     
     cout << "Welcome to Olympic Medals Records Agency.\n\nBegin by selecting an item from the list:" << endl;
@@ -131,7 +185,6 @@ void OMRA::menu() {
 }
 
 void OMRA::printList() { // Option 1 "List"
-    system("CLS");
     int choice = 0;
     
     cout << "Would you like to print by (1) Rank  or  (2) Country" << endl;
@@ -153,12 +206,10 @@ void OMRA::printList() { // Option 1 "List"
     else
         printByCountry();
     
-    system("pause");
     menu(); // return to menu
 }
 
 void OMRA::printNode() { // Option 2 or 6. Can be used to PRINT node or to SEARCH
-    system("CLS");
     int choice = 0;
     
     cout << "Would you like to search by (1) Rank  or  (2) Country" << endl;
@@ -188,12 +239,10 @@ void OMRA::printNode() { // Option 2 or 6. Can be used to PRINT node or to SEARC
         printNodeCountry(name);
     }
     
-    system("pause");
     menu(); // return to menu
 }
 
 void OMRA::edit() { // Option 3
-    system("CLS");
     string name;
     char choice;
     
@@ -258,8 +307,9 @@ void OMRA::edit() { // Option 3
     
 }
 
+
+//Fully Functioning
 void OMRA::addCountry() { // Option 4
-    system("CLS");
     string country;
     int gold, silver, bronze;
     char choice = 'a';
@@ -286,13 +336,12 @@ void OMRA::addCountry() { // Option 4
         addCountry();
     else {
         cout << "You will now be taken back to the Main Menu." << endl;
-        system("pause");
+
         menu();  // return to menu
     }
 }
 
 void OMRA::removeCountry() { // Option 5
-    system("CLS");
     int choice = 0;
     char charChoice = 'a';
     
@@ -365,7 +414,6 @@ void OMRA::removeCountry() { // Option 5
     }
     else {
         cout << "You will now be taken back to the Main Menu." << endl;
-        system("pause");
         menu(); // return to menu
     }
     

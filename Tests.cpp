@@ -7,12 +7,13 @@ using namespace std;
 int main() {
     OMRA omra;
     
-    /*omra.addNewCountry("Alisa", 10, 1000, 400, 50);
-    omra.addNewCountry("Alex", 10, 300, 44, 21);
+    //omra.addNewCountry("Alisa", 10, 1000, 400);
+    //omra.addNewCountry("Alex", 10, 300, 44);
     
-    // Read from file
+    omra.initializeFromFile("/Users/fnord/Documents/CPP/22CProject/22CProject/inputOutput.txt");
+    omra.printByRank();
     
-    omra.menu(omra);*/
-    omra.testMethod();
+    //omra.menu();
+    //omra.testMethod();
     return 0;
 }

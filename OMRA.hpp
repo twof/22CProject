@@ -120,6 +120,7 @@ private:
     vector<Country*> rankList;
     
     void rankingHelper(Country *country);
+    vector<string> tokenizeCSVLine(istream &is);
     
 public:
     OMRA();
