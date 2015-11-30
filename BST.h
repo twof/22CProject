@@ -50,6 +50,8 @@ private:
     int getHeight(Nodeptr root);
     void printLevelOrder(Nodeptr root, queue<Nodeptr> NPQueue);
     void initilizeAdjacency(Nodeptr root);
+    bstdata getNodeHelper(Nodeptr root, bstdata data);
+    
     
 public:
     BST();
@@ -69,6 +71,7 @@ public:
     bstdata minimum();
     bstdata maximum();
     void levelOrderPrint();
+    bstdata getNode(bstdata data);
 };
 
 template <class bstdata>
@@ -135,6 +138,52 @@ BST<bstdata>::BST(BST<bstdata> const &bst){
     add(bst->getRoot());
     while (temp != NULL) {
         
+    }
+}
+
+template <class bstdata>
+bstdata BST<bstdata>::getNode(bstdata data){
+    return getNodeHelper(this->root, data);
+}
+
+template <class bstdata>
+bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
+    if (is_pointer<bstdata>::value) {
+        if (*root->data == *data) {
+            return root->data;
+        }
+        if (*root->data > *data) {
+            if (root->left == NULL) {
+                return NULL;
+            }else{
+                getNodeHelper(root->left, data);
+            }
+        }else{
+            if (root->right == NULL) {
+                return NULL;
+            }else{
+                getNodeHelper(root->right, data);
+            }
+        }
+        return NULL;
+    }else{
+        if (root->data == data) {
+            return root->data;
+        }
+        if (root->data > data) {
+            if (root->left == NULL) {
+                return NULL;
+            }else{
+                getNodeHelper(root->left, data);
+            }
+        }else if (root->data < data){
+            if (root->right == NULL) {
+                return NULL;
+            }else{
+                getNodeHelper(root->right, data);
+            }
+        }
+        return NULL;
     }
 }
 

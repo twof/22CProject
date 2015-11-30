@@ -34,7 +34,7 @@ private:
         
         
         Country(): countryName(""), rank(NULL), gold(NULL), silver(NULL), bronze(NULL){}
-        Country(string ncountry, int ngold, int nsilver, int nbronze): countryName(ncountry), rank(NULL), gold(ngold), silver(nsilver), bronze(nbronze), sortSwitch(NULL){}
+        Country(string ncountry, int ngold, int nsilver, int nbronze, int rank): countryName(ncountry), rank(NULL), gold(ngold), silver(nsilver), bronze(nbronze), sortSwitch(NULL){}
         
         bool operator==(const Country &rightCountry){
             return sortSwitch(*this, rightCountry, ET);
@@ -136,6 +136,15 @@ public:
     void getCountry(string name);
     void getCountry(int rank);
     void testMethod();
+    void printNodeRank(int value); // printNode helper for rank
+    void printNodeCountry(string value); // printNode helper for country
+    //	void makeMenuChoice(OMRA &omra);
+    void printList();	// menu choice option #1
+    void printNode();	// menu choice option #2 & 6
+    void addCountry();	// menu choice option #4
+    void removeCountry();	// menu choice option #5
+    void edit();	// menu choice option #3
+    int findRank(string country);
     
 };
 
