@@ -149,10 +149,10 @@ bstdata BST<bstdata>::getNode(bstdata data){
 template <class bstdata>
 bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
     if (is_pointer<bstdata>::value) {
-        if (*root->data == *data) {
+		if (*data == *root->data) {
             return root->data;
         }
-        if (*root->data > *data) {
+		if (*data < *root->data) {
             if (root->left == NULL) {
                 return NULL;
             }else{
@@ -165,7 +165,7 @@ bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
                 getNodeHelper(root->right, data);
             }
         }
-        return NULL;
+//      return NULL;
     }else{
         if (root->data == data) {
             return root->data;

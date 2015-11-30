@@ -34,7 +34,7 @@ private:
         
         
         Country(): countryName(""), rank(NULL), gold(NULL), silver(NULL), bronze(NULL){}
-        Country(string ncountry, int ngold, int nsilver, int nbronze, int rank): countryName(ncountry), rank(NULL), gold(ngold), silver(nsilver), bronze(nbronze), sortSwitch(NULL){}
+        Country(string ncountry, int rank, int ngold, int nsilver, int nbronze): countryName(ncountry), rank(rank), gold(ngold), silver(nsilver), bronze(nbronze), sortSwitch(NULL){}
         
         bool operator==(const Country &rightCountry){
             return sortSwitch(*this, rightCountry, ET);

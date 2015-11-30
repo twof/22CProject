@@ -7,6 +7,7 @@
 //
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 #include "OMRA.hpp"
 
@@ -83,7 +84,7 @@ OMRA::~OMRA(){
 }
 
 void OMRA::addNewCountry(string name, int goldMedalCount, int silverMedalCount, int bronzeMedalCount){
-    Country *newCountry = new Country(name, goldMedalCount, silverMedalCount, bronzeMedalCount, NULL);
+    Country *newCountry = new Country(name, NULL, goldMedalCount, silverMedalCount, bronzeMedalCount);
     rankingHelper(newCountry);
     newCountry->sortSwitch = newCountry->rankComparison;
     rankTree.add(newCountry);
@@ -92,16 +93,15 @@ void OMRA::addNewCountry(string name, int goldMedalCount, int silverMedalCount, 
 }
 
 void OMRA::printByRank(){
+	cout << endl;
     rankTree.inOrderPrint();
+	cout << endl;
 }
 
 void OMRA::printByCountry(){
+	cout << endl;
     countryTree.inOrderPrint();
-}
-
-int OMRA::findRank(string name) {
-    Country *dummyCountry = new Country(name, 0, 0, 0, 0);
-    return dummyCountry->rank;
+	cout << endl;
 }
 
 bool OMRA::initializeFromFile(string filePath){
@@ -126,7 +126,6 @@ bool OMRA::initializeFromFile(string filePath){
         return false;
     }
 }
-
 
 bool OMRA::exportToFile(string filePath){
     ofstream saveFile;
@@ -209,7 +208,7 @@ void OMRA::printList() { // Option 1 "List"
     menu(); // return to menu
 }
 
-void OMRA::printNode() { // Option 2 or 6. Can be used to PRINT node or to SEARCH
+void OMRA::printNode() { // Option 2. SEARCH
     int choice = 0;
     
     cout << "Would you like to search by (1) Rank  or  (2) Country" << endl;
@@ -245,14 +244,17 @@ void OMRA::printNode() { // Option 2 or 6. Can be used to PRINT node or to SEARC
 void OMRA::edit() { // Option 3
     string name;
     char choice;
-    
+
+	cout << "Welcome to the Edit Function of OMRA." << endl;
     cout << "Enter the name of the Country to be edited:  ";
     cin >> name;
+	cout << endl;
     
     Country *dummyCountry = new Country(name, 0, 0, 0, 0);
-    
+	dummyCountry->sortSwitch = dummyCountry->nameComparison;
+
     if (countryTree.contains(dummyCountry)) {
-        cout << endl;
+		cout << countryTree.getNode(dummyCountry) << endl;
         cout << "Is this the country you would like to edit? (Y/N)" << endl;
         cout << "Choice:  ";
         cin >> choice;
@@ -265,6 +267,7 @@ void OMRA::edit() { // Option 3
         
         if (toupper(choice) == 'Y') { // edit country by removing old and adding new
             countryTree.remove(dummyCountry);
+			rankTree.remove(dummyCountry);
             
             string country;
             int rank, gold, silver, bronze;
@@ -272,8 +275,6 @@ void OMRA::edit() { // Option 3
             cout << "Insert the necessary information for '" << name << "'when prompted." << endl;
             cout << "Name of Country:  ";
             cin >> country;
-            cout << "Rank:  ";
-            cin >> rank;
             cout << "Gold Medals earned:  ";
             cin >> gold;
             cout << "Silver Medals earned:  ";
@@ -360,22 +361,20 @@ void OMRA::removeCountry() { // Option 5
         cout << "Please enter rank:  ";
         cin >> rank;
         Country *dummyRank = new Country(" ", rank, 0, 0, 0);
+		dummyRank->sortSwitch = dummyRank->rankComparison;
         
-        if (rankTree.contains(dummyRank)) {
-            while (toupper(choice) != 'Y' && toupper(choice) != 'N') {
+        if (rankTree.getNode(dummyRank) != NULL) {
+            while (toupper(charChoice) != 'Y' && toupper(charChoice) != 'N') {
+				cout << rankTree.getNode(dummyRank) << endl;
                 cout << "Is this the country you would like to remove?" << endl;
                 cout << "Y/N:  ";
-                cin >> choice;
+                cin >> charChoice;
             }
             
-            if (toupper(choice) == 'Y') {
-                string name;
-                cout << "Please enter name of Country to confirm:  ";
-                cin >> name;
-                Country *dummyCountry = new Country(name, 0, 0, 0, 0);
-                
+            if (toupper(charChoice) == 'Y') {
                 rankTree.remove(dummyRank);
-                countryTree.remove(dummyCountry);
+				dummyRank->sortSwitch = dummyRank->nameComparison;
+				countryTree.remove(rankTree.getNode(dummyRank));
             }
         }
     }
@@ -384,22 +383,21 @@ void OMRA::removeCountry() { // Option 5
         cout << "Please enter the name of the Country:  ";
         cin >> name;
         Country *dummyCountry = new Country(name, 0, 0, 0, 0);
-        
+		dummyCountry->sortSwitch = dummyCountry->nameComparison;
         if (countryTree.contains(dummyCountry)) {
-            while (toupper(charChoice) != 'Y' && toupper(charChoice) != 'N') {
-                cout << "Is this the country you would like to remove?" << endl;
-                cout << "Y/N:  ";
-                cin >> charChoice;
-            }
-            
-            if (toupper(charChoice) == 'Y') {
-                rankingHelper(dummyCountry);
-                dummyCountry->sortSwitch = dummyCountry->rankComparison;
-                rankTree.remove(dummyCountry);
-                dummyCountry->sortSwitch = dummyCountry->nameComparison;
-                countryTree.remove(dummyCountry);
-            }
-        }
+			while (toupper(choice) != 'Y' && toupper(choice) != 'N') {
+				cout << rankTree.getNode(dummyCountry) << endl;
+				cout << "Is this the country you would like to remove?" << endl;
+				cout << "Y/N:  ";
+				cin >> choice;
+			}
+
+			if (toupper(choice) == 'Y') {
+				countryTree.remove(dummyCountry);
+				dummyCountry->sortSwitch = dummyCountry->rankComparison;
+				rankTree.remove(rankTree.getNode(dummyCountry));
+			}
+		}
     }
     
     charChoice = 'a';
@@ -422,20 +420,18 @@ void OMRA::removeCountry() { // Option 5
 
 void OMRA::printNodeRank(int value) { // can be used to PRINT node and SEARCH tree
     Country *dummyCountry = new Country(" ", value, 0, 0, 0);
+	dummyCountry->sortSwitch = dummyCountry->rankComparison;
     cout << endl;
-    if (!rankTree.contains(dummyCountry)) {
-        cout << "Rank not found." << endl;
-    } // else, country information is already printed by contains
-    cout << endl;
+	cout << rankTree.getNode(dummyCountry) << endl;
+	cout << endl;
 }
 
 void OMRA::printNodeCountry(string value) { // can be used to PRINT node and SEARCH tree
     Country *dummyCountry = new Country(value, 0, 0, 0, 0);
+	dummyCountry->sortSwitch = dummyCountry->nameComparison;
     cout << endl;
-    if (!countryTree.contains(dummyCountry)) {
-        cout << "Country not found." << endl;
-    } // else, country information is already printed by contains
-    cout << endl;
+	cout << countryTree.getNode(dummyCountry) << endl;
+	cout << endl;
 }
 
 void OMRA::testMethod(){
