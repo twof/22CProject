@@ -59,19 +59,20 @@ void OMRA::rankingHelper(OMRA::Country *country){
     }
 }
 
-/*vector<string> OMRA::tokenizeCSVLine(istream &is){
-    vector<string> result;
-    string line;
-    getline(is,line);
-    
-    stringstream lineStream(line);
-    string cell;
-    
-    while(getline(lineStream,cell,',')){
-        result.push_back(cell);
+void OMRA::recalculateRank(){
+    for (int i = 0; i < rankList.size(); i++) {
+        rankList[i]->rank = rankList.size() - i;
     }
-    return result;
-}*/
+}
+
+void OMRA::cohesiveRemove(Country *country){
+    country->sortSwitch = country->nameComparison;
+    countryTree.remove(country);
+    country->sortSwitch = country->rankComparison;
+    rankTree.remove(country);
+    rankList.erase(std::remove(rankList.begin(), rankList.end(), country), rankList.end());
+    recalculateRank();
+}
 
 //Public'
 
@@ -251,10 +252,12 @@ void OMRA::edit() { // Option 3
 	cout << endl;
     
     Country *dummyCountry = new Country(name, 0, 0, 0, 0);
+    Country *foundCountry;
 	dummyCountry->sortSwitch = dummyCountry->nameComparison;
 
     if (countryTree.contains(dummyCountry)) {
-		cout << countryTree.getNode(dummyCountry) << endl;
+        foundCountry = countryTree.getNode(dummyCountry);
+		cout << foundCountry << endl;
         cout << "Is this the country you would like to edit? (Y/N)" << endl;
         cout << "Choice:  ";
         cin >> choice;
@@ -266,11 +269,10 @@ void OMRA::edit() { // Option 3
         }
         
         if (toupper(choice) == 'Y') { // edit country by removing old and adding new
-            countryTree.remove(dummyCountry);
-			rankTree.remove(dummyCountry);
+            cohesiveRemove(foundCountry);
             
             string country;
-            int rank, gold, silver, bronze;
+            int gold, silver, bronze;
             
             cout << "Insert the necessary information for '" << name << "'when prompted." << endl;
             cout << "Name of Country:  ";
@@ -302,7 +304,6 @@ void OMRA::edit() { // Option 3
     }
     else {
         cout << "Return to Main Menu." << endl;
-        system("pause");
         menu();
     }
     
@@ -361,20 +362,20 @@ void OMRA::removeCountry() { // Option 5
         cout << "Please enter rank:  ";
         cin >> rank;
         Country *dummyRank = new Country(" ", rank, 0, 0, 0);
+        Country *foundCountry = nullptr;
 		dummyRank->sortSwitch = dummyRank->rankComparison;
         
         if (rankTree.getNode(dummyRank) != NULL) {
             while (toupper(charChoice) != 'Y' && toupper(charChoice) != 'N') {
-				cout << rankTree.getNode(dummyRank) << endl;
+                foundCountry = rankTree.getNode(dummyRank);
+				cout << foundCountry << endl;
                 cout << "Is this the country you would like to remove?" << endl;
                 cout << "Y/N:  ";
                 cin >> charChoice;
             }
             
             if (toupper(charChoice) == 'Y') {
-                rankTree.remove(dummyRank);
-				dummyRank->sortSwitch = dummyRank->nameComparison;
-				countryTree.remove(rankTree.getNode(dummyRank));
+                cohesiveRemove(foundCountry);
             }
         }
     }
@@ -383,19 +384,23 @@ void OMRA::removeCountry() { // Option 5
         cout << "Please enter the name of the Country:  ";
         cin >> name;
         Country *dummyCountry = new Country(name, 0, 0, 0, 0);
+        Country *foundCountry = nullptr;
+        
 		dummyCountry->sortSwitch = dummyCountry->nameComparison;
         if (countryTree.contains(dummyCountry)) {
-			while (toupper(choice) != 'Y' && toupper(choice) != 'N') {
-				cout << rankTree.getNode(dummyCountry) << endl;
+			while (toupper(charChoice) != 'Y' && toupper(charChoice) != 'N') {
+                foundCountry = countryTree.getNode(dummyCountry);
+				cout << foundCountry << endl;
 				cout << "Is this the country you would like to remove?" << endl;
 				cout << "Y/N:  ";
-				cin >> choice;
+				cin >> charChoice;
+                cin.clear();
+                cin.ignore();
+                
 			}
 
-			if (toupper(choice) == 'Y') {
-				countryTree.remove(dummyCountry);
-				dummyCountry->sortSwitch = dummyCountry->rankComparison;
-				rankTree.remove(rankTree.getNode(dummyCountry));
+			if (toupper(charChoice) == 'Y') {
+                cohesiveRemove(foundCountry);
 			}
 		}
     }
@@ -436,9 +441,13 @@ void OMRA::printNodeCountry(string value) { // can be used to PRINT node and SEA
 
 void OMRA::testMethod(){
     Country *testCountry = new Country("Alisa", 10, 1000, 400, 50);
+    Country *otherTestCountry = new Country("Alex", 66, 32, 34, 687);
     BST<Country*> test;
     testCountry->sortSwitch = testCountry->nameComparison;
+    otherTestCountry->sortSwitch = otherTestCountry->nameComparison;
     test.add(testCountry);
-    cout << test.getNode(new Country("Alisa", 0, 0, 0, 0));
-    
+    test.add(otherTestCountry);
+    test.inOrderPrint();
+    test.remove(testCountry);
+    test.inOrderPrint();
 }

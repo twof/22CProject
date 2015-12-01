@@ -10,7 +10,7 @@ int main() {
     //omra.addNewCountry("Alisa", 10, 1000, 400);
     //omra.addNewCountry("Alex", 10, 300, 44);
     
-	if (omra.initializeFromFile("//puma/home/ahawthorne/Visual Studio 2013/Projects/22CFinalProject/22CFinalProject/medals.txt")) {
+	if (omra.initializeFromFile("/Users/fnord/Documents/CPP/22CProject/22CProject/inputOutput.txt")) {
 		omra.printByRank();
 	}
 	else

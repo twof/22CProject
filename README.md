@@ -11,6 +11,8 @@ TODO:
 - [DONE]Create a seperate OMRA class that contains two BSTs and the methods to interact with them
 - [DONE]Get the overloaded ostream operator to trigger when it should
 - Add documentation to every method and class.
-
 - Update everything so that it uses file io
 - Test every menu option
+- Add in default file to save and read from
+- Fix Remove. Currently, countries are getting deleted from countrytree but not rank tree
+- 

@@ -156,13 +156,13 @@ bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
             if (root->left == NULL) {
                 return NULL;
             }else{
-                getNodeHelper(root->left, data);
+                return getNodeHelper(root->left, data);
             }
         }else{
             if (root->right == NULL) {
                 return NULL;
             }else{
-                getNodeHelper(root->right, data);
+                return getNodeHelper(root->right, data);
             }
         }
 //      return NULL;
@@ -174,13 +174,13 @@ bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
             if (root->left == NULL) {
                 return NULL;
             }else{
-                getNodeHelper(root->left, data);
+                return getNodeHelper(root->left, data);
             }
         }else if (root->data < data){
             if (root->right == NULL) {
                 return NULL;
             }else{
-                getNodeHelper(root->right, data);
+                return getNodeHelper(root->right, data);
             }
         }
         return NULL;
@@ -377,72 +377,84 @@ bool BST<bstdata>::containsValue(Nodeptr root, bstdata data){
 }
 
 template <class bstdata>
-void BST<bstdata>::removeValue(Nodeptr root, bstdata value, Nodeptr prevSave){
+void BST<bstdata>::removeValue(Nodeptr rootptr, bstdata value, Nodeptr prevSave){
     if (is_pointer<bstdata>::value) {
-        if (root == NULL) {
+        if (rootptr == NULL) {
             cout << "Remove: The value doesn't exist in the tree." << endl;
             return;
-        }else if (*value < *root->data){
-            removeValue(root->left, value, root);
-        }else if (*value > *root->data){
-            removeValue(root->right, value, root);
+        }else if (*value < *rootptr->data){
+            removeValue(rootptr->left, value, rootptr);
+        }else if (*value > *rootptr->data){
+            removeValue(rootptr->right, value, rootptr);
         }else{
-            if (root->right == NULL && root->left == NULL){
-                delete root;
-                if (prevSave->left == root) {
+            if (rootptr->right == NULL && rootptr->left == NULL){
+                if(prevSave == NULL){
+                    this->root = nullptr;
+                }else if (prevSave->left == rootptr) {
                     prevSave->left = NULL;
                 }else{
                     prevSave->right = NULL;
                 }
+                delete rootptr;
                 size--;
-            }else if (root->left == NULL && root->right != NULL){
-                Nodeptr temp = root;
-                root = root->left;
-                delete temp;
+            }else if (rootptr->left == NULL && rootptr->right != NULL){
+                if(prevSave == NULL){
+                    this->root = rootptr->right;
+                }else if (prevSave->left == rootptr) {
+                    prevSave->left = rootptr->right;
+                }else{
+                    prevSave->right = rootptr->right;
+                }
+                delete rootptr;
                 size--;
-            }else if (root->left != NULL && root->right == NULL){
-                Nodeptr temp = root;
-                root = root->right;
-                delete temp;
+            }else if (rootptr->left != NULL && rootptr->right == NULL){
+                if(prevSave == NULL){
+                    this->root = rootptr->left;
+                }else if (prevSave->left == rootptr) {
+                    prevSave->left = rootptr->left;
+                }else{
+                    prevSave->right = rootptr->left;
+                }
+                delete rootptr;
                 size--;
             }else{
-                bstdata minRight = findMin(root->right);
-                root->data = minRight;
-                removeValue(root->right, minRight, root);
+                bstdata minRight = findMin(rootptr->right);
+                rootptr->data = minRight;
+                removeValue(rootptr->right, minRight, rootptr);
                 return;
             }
         }
     }else{
-        if (root == NULL) {
+        if (rootptr == NULL) {
             cout << "Remove: The value doesn't exist in the tree." << endl;
             return;
-        }else if (value < root->data){
-            removeValue(root->left, value, root);
-        }else if (value > root->data){
-            removeValue(root->right, value, root);
+        }else if (value < rootptr->data){
+            removeValue(rootptr->left, value, rootptr);
+        }else if (value > rootptr->data){
+            removeValue(rootptr->right, value, rootptr);
         }else{
-            if (root->right == NULL && root->left == NULL){
-                delete root;
-                if (prevSave->left == root) {
+            if (rootptr->right == NULL && rootptr->left == NULL){
+                delete rootptr;
+                if (prevSave->left == rootptr) {
                     prevSave->left = NULL;
                 }else{
                     prevSave->right = NULL;
                 }
                 size--;
-            }else if (root->left == NULL && root->right != NULL){
-                Nodeptr temp = root;
-                root = root->left;
+            }else if (rootptr->left == NULL && rootptr->right != NULL){
+                Nodeptr temp = rootptr;
+                rootptr = rootptr->left;
                 delete temp;
                 size--;
-            }else if (root->left != NULL && root->right == NULL){
-                Nodeptr temp = root;
-                root = root->right;
+            }else if (rootptr->left != NULL && rootptr->right == NULL){
+                Nodeptr temp = rootptr;
+                rootptr = rootptr->right;
                 delete temp;
                 size--;
             }else{
-                bstdata minRight = findMin(root->right);
-                root->data = minRight;
-                removeValue(root->right, minRight, root);
+                bstdata minRight = findMin(rootptr->right);
+                rootptr->data = minRight;
+                removeValue(rootptr->right, minRight, rootptr);
                 return;
             }
         }
