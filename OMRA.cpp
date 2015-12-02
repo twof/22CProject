@@ -13,6 +13,12 @@
 #include "OMRA.hpp"
 
 //Private
+
+/**
+ *  Inserts a country into the rankList in order, then determines its rank
+ *
+ *  @param country The country to be inserted into rankList and ranked
+ */
 void OMRA::rankingHelper(OMRA::Country *country){
     bool hasInserted = false;
     if (rankList.size() == 0) {
@@ -60,12 +66,20 @@ void OMRA::rankingHelper(OMRA::Country *country){
     }
 }
 
+/**
+ *  Recalculates rank. Useful after deletions and edits.
+ */
 void OMRA::recalculateRank(){
     for (int i = 0; i < rankList.size(); i++) {
         rankList[i]->rank = rankList.size() - i;
     }
 }
 
+/**
+ *  Removes a country from both BSTs and from the rankList. Then it recalculates rankings.
+ *
+ *  @param country The country to be removed.
+ */
 void OMRA::cohesiveRemove(Country *country){
     country->sortSwitch = country->nameComparison;
     countryTree.remove(country);
@@ -77,20 +91,37 @@ void OMRA::cohesiveRemove(Country *country){
 
 //Public'
 
+/**
+ *  Default constructor. Doesn't do anything.
+ */
 OMRA::OMRA(){
     
 }
 
+/**
+ *  Default destructor. Doesn't do anything.
+ */
 OMRA::~OMRA(){
     
 }
 
+/**
+ *  Clears the screen by carriage returning a bunch of times.
+ */
 void clearScreen() {
     int n;
     for (n = 0; n < 10; n++)
         printf("\n\n\n\n\n\n\n\n\n\n");
 }
 
+/**
+ *  Adds a new country to the BSTs and ranks it.
+ *
+ *  @param name             The name of the country to be added.
+ *  @param goldMedalCount   The gold medal count of the country to be added.
+ *  @param silverMedalCount The silver medal count of the country to be added.
+ *  @param bronzeMedalCount The bronze medal count of the country to be added.
+ */
 void OMRA::addNewCountry(string name, int goldMedalCount, int silverMedalCount, int bronzeMedalCount){
     Country *newCountry = new Country(name, NULL, goldMedalCount, silverMedalCount, bronzeMedalCount);
     rankingHelper(newCountry);
@@ -100,18 +131,31 @@ void OMRA::addNewCountry(string name, int goldMedalCount, int silverMedalCount, 
     countryTree.add(newCountry);
 }
 
+/**
+ *  Prints all of the countries by rank.
+ */
 void OMRA::printByRank(){
 	cout << endl;
     rankTree.inOrderPrint();
 	cout << endl;
 }
 
+/**
+ *  Prints all of the countries in alphabetical order
+ */
 void OMRA::printByCountry(){
 	cout << endl;
     countryTree.inOrderPrint();
 	cout << endl;
 }
 
+/**
+ *  Loads countries from a CSV file.
+ *  
+ *  @param filePath The file to read from.
+ *  
+ *  @return Returns true if the file was opened succefully.
+ */
 bool OMRA::initializeFromFile(string filePath){
     ifstream file;
     file.open(filePath);
@@ -135,6 +179,13 @@ bool OMRA::initializeFromFile(string filePath){
     }
 }
 
+/**
+ *  Saves all of the countries into a file in CSV format.
+ *
+ *  @param filePath The file to save to.
+ *
+ *  @return Returns true if the file was opened succesfully.
+ */
 bool OMRA::exportToFile(string filePath){
     ofstream saveFile;
     saveFile.open(filePath);
@@ -150,7 +201,9 @@ bool OMRA::exportToFile(string filePath){
 
 
 
-
+/**
+ *  Prints out the menu and handles all of the options.
+ */
 void OMRA::menu() {
     int choice = 0;
     clearScreen();
@@ -193,6 +246,9 @@ void OMRA::menu() {
         return;
 }
 
+/**
+ *  Handles the print list option from the menu.
+ */
 void OMRA::printList() { // Option 1 "List"
     int choice = 0;
     
@@ -220,6 +276,9 @@ void OMRA::printList() { // Option 1 "List"
     menu(); // return to menu
 }
 
+/**
+ *  Handles the search option from the menu.
+ */
 void OMRA::printNode() { // Option 2. SEARCH
     int choice = 0;
     
@@ -257,6 +316,9 @@ void OMRA::printNode() { // Option 2. SEARCH
     menu(); // return to menu
 }
 
+/**
+ *  Handles the edit option from the menu.
+ */
 void OMRA::edit() { // Option 3
     string name;
     char choice;
@@ -326,7 +388,9 @@ void OMRA::edit() { // Option 3
 }
 
 
-//Fully Functioning
+/**
+ *  Handles the add option from the menu.
+ */
 void OMRA::addCountry() { // Option 4
     string country;
     int gold, silver, bronze;
@@ -360,6 +424,9 @@ void OMRA::addCountry() { // Option 4
     }
 }
 
+/**
+ *  Handles the remove option from the menu.
+ */
 void OMRA::removeCountry() { // Option 5
     int choice = 0;
     char charChoice = 'a';
@@ -394,6 +461,7 @@ void OMRA::removeCountry() { // Option 5
             
             if (toupper(charChoice) == 'Y') {
                 cohesiveRemove(foundCountry);
+                cout << endl << foundCountry->countryName << " has been removed." << endl;
             }
         }
     }
@@ -419,6 +487,7 @@ void OMRA::removeCountry() { // Option 5
 
 			if (toupper(charChoice) == 'Y') {
                 cohesiveRemove(foundCountry);
+                cout << endl << foundCountry->countryName << " has been removed." << endl;
 			}
 		}
     }
@@ -440,32 +509,38 @@ void OMRA::removeCountry() { // Option 5
     }
 }
 
-
+/**
+ *  Used to print a country after searching for it by rank.
+ *
+ *  @param value The rank to search for.
+ */
 void OMRA::printNodeRank(int value) { // can be used to PRINT node and SEARCH tree
     Country *dummyCountry = new Country(" ", value, 0, 0, 0);
-	dummyCountry->sortSwitch = dummyCountry->rankComparison;
-    cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
-    cout << rankTree.getNode(dummyCountry) << endl;
-    cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
+    dummyCountry->sortSwitch = dummyCountry->rankComparison;
+    if (value < 0 || value > rankTree.getSize()) {
+        cout << "Item not found." << endl;
+    }
+    else {
+        cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
+        cout << rankTree.getNode(dummyCountry) << endl;
+        cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
+    }
+
 }
 
+/**
+ *  User to print a country after searching for it by name.
+ *
+ *  @param value The name of the country to search for.
+ */
 void OMRA::printNodeCountry(string value) { // can be used to PRINT node and SEARCH tree
     Country *dummyCountry = new Country(value, 0, 0, 0, 0);
-	dummyCountry->sortSwitch = dummyCountry->nameComparison;
-    cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
-    cout << countryTree.getNode(dummyCountry) << endl;
-    cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
-}
-
-void OMRA::testMethod(){
-    Country *testCountry = new Country("Alisa", 10, 1000, 400, 50);
-    Country *otherTestCountry = new Country("Alex", 66, 32, 34, 687);
-    BST<Country*> test;
-    testCountry->sortSwitch = testCountry->nameComparison;
-    otherTestCountry->sortSwitch = otherTestCountry->nameComparison;
-    test.add(testCountry);
-    test.add(otherTestCountry);
-    test.inOrderPrint();
-    test.remove(testCountry);
-    test.inOrderPrint();
+    dummyCountry->sortSwitch = dummyCountry->nameComparison;
+    if (countryTree.contains(dummyCountry)) {
+        cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
+        cout << countryTree.getNode(dummyCountry) << endl;
+        cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
+    }
+    else
+        cout << "Item not found." << endl;
 }

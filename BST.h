@@ -19,6 +19,9 @@ using namespace std;
 template <class bstdata>
 class BST{
 private:
+    /**
+     *  Data container for the tree
+     */
     struct Node
     {
         bstdata data;
@@ -33,7 +36,13 @@ private:
     
     typedef struct Node* Nodeptr;
     
+    /**
+     *  The uppermost node on the tree
+     */
     Nodeptr root;
+    /**
+     *  The number of nodes in the tree
+     */
     int size;
     
     /**Private helper functions*/
@@ -74,7 +83,16 @@ public:
     bstdata getNode(bstdata data);
 };
 
+
+
+
 template <class bstdata>
+/**
+ *  Helper function to add data to the tree.
+ *
+ *  @param root  A pointer to a root node
+ *  @param value The data being added to the tree
+ */
 void BST<bstdata>::addValue(Nodeptr root, bstdata value){
     if (is_pointer<bstdata>::value) {
         if (*value == *root->data){
@@ -124,15 +142,24 @@ void BST<bstdata>::addValue(Nodeptr root, bstdata value){
 
 
 template <class bstdata>
+/**
+ *  The default Constructor. Sets the size to 0 and the root to null.
+ */
 BST<bstdata>::BST(): size(0), root(NULL) {}
 
 template <class bstdata>
+/**
+ *  The default destructor. Deletes the entire tree.
+ */
 BST<bstdata>::~BST(){
     deleteTree(root);
     
 }
 
 template <class bstdata>
+/**
+ *  Copy constructor
+ */
 BST<bstdata>::BST(BST<bstdata> const &bst){
     Nodeptr temp = *new Nodeptr(bst->getRoot);
     add(bst->getRoot());
@@ -142,11 +169,26 @@ BST<bstdata>::BST(BST<bstdata> const &bst){
 }
 
 template <class bstdata>
+/**
+ *  Searches for a returns a node that matches the one passed to it.
+ *
+ *  @param data The data to search for.
+ *
+ *  @return The found node or null if not found.
+ */
 bstdata BST<bstdata>::getNode(bstdata data){
     return getNodeHelper(this->root, data);
 }
 
 template <class bstdata>
+/**
+ *  Helper function for the getNode method
+ *
+ *  @param root A pointer to a root node
+ *  @param data The data being searched for
+ *
+ *  @return The data if found, null if not.
+ */
 bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
     if (is_pointer<bstdata>::value) {
 		if (*data == *root->data) {
@@ -188,6 +230,11 @@ bstdata BST<bstdata>::getNodeHelper(Nodeptr root, bstdata data){
 }
 
 template<class bstdata>
+/**
+ *  Deletes a tree
+ *
+ *  @param root A pointer to a root node
+ */
 void BST<bstdata>::deleteTree(Nodeptr root){
     if (root != NULL) {
         deleteTree(root->left);
@@ -198,6 +245,13 @@ void BST<bstdata>::deleteTree(Nodeptr root){
 }
 
 template <class bstdata>
+/**
+ *  Returns the height of the tree
+ *
+ *  @param root A pointer to a root node
+ *
+ *  @return The height of the tree
+ */
 int BST<bstdata>::getHeight(Nodeptr root){
     if (root == NULL) {
         return -1;
@@ -213,6 +267,11 @@ int BST<bstdata>::getHeight(Nodeptr root){
 }
 
 template <class bstdata>
+/**
+ *  Getter for the minimum value in the tree
+ *
+ *  @return The minimum value in the tree
+ */
 bstdata BST<bstdata>::minimum(){
     if (root == NULL){
         cout << "Minimum: Tree is empty" << endl;
@@ -224,6 +283,11 @@ bstdata BST<bstdata>::minimum(){
 }
 
 template <class bstdata>
+/**
+ *  Getter for the maximum value in the tree
+ *
+ *  @return The maximum value in the tree
+ */
 bstdata BST<bstdata>::maximum(){
     if (root == NULL) {
         cout << "Maximum: Tree is empty" << endl;
@@ -236,6 +300,13 @@ bstdata BST<bstdata>::maximum(){
 
 
 template<class bstdata>
+/**
+ *  Helper function for the minimum method
+ *
+ *  @param root A pointer to a root node
+ *
+ *  @return The minimum value in the tree
+ */
 bstdata BST<bstdata>::findMin(Nodeptr root){
     while (root->left != NULL) {
         root = root->left;
@@ -244,6 +315,13 @@ bstdata BST<bstdata>::findMin(Nodeptr root){
 }
 
 template<class bstdata>
+/**
+ *  Helper function for the maximum method
+ *
+ *  @param root A pointer to a root node
+ *
+ *  @return The maximum value in the tree
+ */
 bstdata BST<bstdata>::findMax(Nodeptr root){
     while (root->right != NULL) {
         root = root->right;
@@ -252,16 +330,31 @@ bstdata BST<bstdata>::findMax(Nodeptr root){
 }
 
 template <class bstdata>
+/**
+ *  Returns true if the tree is empty
+ *
+ *  @return True if the tree is empty
+ */
 bool BST<bstdata>::isEmpty(){
     return size==0;
 }
 
 template <class bstdata>
+/**
+ *  Getter for the size of the tree
+ *
+ *  @return The number of nodes in the tree
+ */
 int BST<bstdata>::getSize(){
     return size;
 }
 
 template <class bstdata>
+/**
+ *  Adds a value to the tree
+ *
+ *  @param value The value to be added to the tree
+ */
 void BST<bstdata>::add(bstdata value){
     if (root == NULL){
         root = new Node(value); //if the tree is empty insert the value at the root
@@ -271,16 +364,29 @@ void BST<bstdata>::add(bstdata value){
 }
 
 template <class bstdata>
+/**
+ *  Getter for the root of the tree
+ *
+ *  @return The root of the tree
+ */
 bstdata BST<bstdata>::getRoot(){
     return this->root->data;
 }
 
 template <class bstdata>
+/**
+ *  Prints the contents of the tree in order from least to greatest
+ */
 void BST<bstdata>::inOrderPrint() {
     printInOrder(root);
 }
 
 template <class bstdata>
+/**
+ *  Helper function for the inOrderPrint method
+ *
+ *  @param root A pointer to a root node
+ */
 void BST<bstdata>::printInOrder(Nodeptr root) {
     if (root->left !=  NULL) {
         printInOrder(root->left);
@@ -294,6 +400,11 @@ void BST<bstdata>::printInOrder(Nodeptr root) {
 }
 
 template <class bstdata>
+/**
+ *  Helper function for the preOrderPrint method
+ *
+ *  @param root A pointer to a root node
+ */
 void BST<bstdata>::preOrderPrint(Nodeptr root){
     if (root != NULL) {
         cout << root->data << endl;
@@ -303,6 +414,11 @@ void BST<bstdata>::preOrderPrint(Nodeptr root){
 }
 
 template <class bstdata>
+/**
+ *  Helper function for the postOrderPrint method
+ *
+ *  @param root A pointer to a root node
+ */
 void BST<bstdata>::postOrderPrint(Nodeptr root){
     if (root != NULL) {
         postOrderPrint(root->left);
@@ -313,23 +429,44 @@ void BST<bstdata>::postOrderPrint(Nodeptr root){
 
 
 template <class bstdata>
+/**
+ *  Prints the entire tree in post order
+ */
 void BST<bstdata>::postOrderPrint(){
     postOrderPrint(this->root);
 }
 
 
 template <class bstdata>
+/**
+ *  Prints the entire tree in pre order
+ */
 void BST<bstdata>::preOrderPrint(){
     preOrderPrint(this->root);
 }
 
 template <class bstdata>
+/**
+ *  Returns whether or not the tree contains the data passed to it
+ *
+ *  @param data The data to be searched for
+ *
+ *  @return True if the tree contains the data being searched for
+ */
 bool BST<bstdata>::contains(bstdata data){
     return containsValue(this->root, data);
 }
 
 
 template <class bstdata>
+/**
+ *  Helper function for the contains method
+ *
+ *  @param root A pointer to a root node
+ *  @param data The data being searched for
+ *
+ *  @return True if the tree contains the data being searched for
+ */
 bool BST<bstdata>::containsValue(Nodeptr root, bstdata data){
     if (is_pointer<bstdata>::value) {
         if (*root->data == *data) {
@@ -379,6 +516,13 @@ bool BST<bstdata>::containsValue(Nodeptr root, bstdata data){
 }
 
 template <class bstdata>
+/**
+ *  Helper for the remove function
+ *
+ *  @param rootptr  A pointer to a root node
+ *  @param value    The value to be deleted
+ *  @param prevSave The previous node during traversal
+ */
 void BST<bstdata>::removeValue(Nodeptr rootptr, bstdata value, Nodeptr prevSave){
     if (is_pointer<bstdata>::value) {
         if (rootptr == NULL) {
@@ -464,6 +608,11 @@ void BST<bstdata>::removeValue(Nodeptr rootptr, bstdata value, Nodeptr prevSave)
 }
 
 template <class bstdata>
+/**
+ *  Removes the node containing the data passed to it assuming the data is in the tree
+ *
+ *  @param value The data to be removed from the tree
+ */
 void BST<bstdata>::remove(bstdata value){
     if (size == 0) {
         cout << "can't remove from an empty tree" << endl;
@@ -473,6 +622,12 @@ void BST<bstdata>::remove(bstdata value){
 }
 
 template <class bstdata>
+/**
+ *  Helper function for the levelOrderPrint method
+ *
+ *  @param root         A pointer to a root node
+ *  @param nodeptrQueue The queue of nodes that need to be visited
+ */
 void BST<bstdata>::printLevelOrder(Nodeptr root, queue<Nodeptr> nodeptrQueue){
     cout << root->data << endl;
     
@@ -490,6 +645,11 @@ void BST<bstdata>::printLevelOrder(Nodeptr root, queue<Nodeptr> nodeptrQueue){
 }
 
 template<class bstdata>
+/**
+ * Initializes the adjacency of each node by setting the distance to -1 and the parent to NULL
+ * 
+ * @param root A pointer to a root node
+ */
 void BST<bstdata>::initilizeAdjacency(Nodeptr root){
     if (root->left !=  NULL) {
         initilizeAdjacency(root->left);
@@ -502,6 +662,9 @@ void BST<bstdata>::initilizeAdjacency(Nodeptr root){
 }
 
 template<class bstdata>
+/**
+ *  Prints the entire tree in level order
+ */
 void BST<bstdata>::levelOrderPrint(){
     queue<Nodeptr> nodeptrQueue;
     nodeptrQueue.push(root);

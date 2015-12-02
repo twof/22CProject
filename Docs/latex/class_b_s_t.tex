@@ -1,0 +1,241 @@
+\hypertarget{class_b_s_t}{}\section{B\+S\+T$<$ bstdata $>$ Class Template Reference}
+\label{class_b_s_t}\index{B\+S\+T$<$ bstdata $>$@{B\+S\+T$<$ bstdata $>$}}
+
+
+{\ttfamily \#include $<$B\+S\+T.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_b_s_t_a735f2e14e53f4fba3940ce547213cf93}{B\+S\+T} ()
+\item 
+\hyperlink{class_b_s_t_a5d3b6579e87f47d2a773c3e514051c77}{B\+S\+T} (\hyperlink{class_b_s_t}{B\+S\+T}$<$ bstdata $>$ const \&bst)
+\item 
+\hyperlink{class_b_s_t_a34395c7dc7e47d312933951b2781cebb}{$\sim$\+B\+S\+T} ()
+\item 
+bool \hyperlink{class_b_s_t_aaf5701521d37dfb3a6ecc3563ab77fbf}{is\+Empty} ()
+\item 
+int \hyperlink{class_b_s_t_a507229baa5487c690e191a26ab1550de}{get\+Size} ()
+\item 
+int \hyperlink{class_b_s_t_a7cda998300ca68d2f70c647b964557bb}{get\+Height} ()
+\item 
+void \hyperlink{class_b_s_t_a55951a848cb22cb4a688b593b74f5103}{add} (bstdata value)
+\item 
+void \hyperlink{class_b_s_t_a66b09c3fbfacaa49145a510084a10aad}{remove} (bstdata value)
+\item 
+bstdata \hyperlink{class_b_s_t_a13590f0c072f798933deb57de7b25aad}{get\+Root} ()
+\item 
+void \hyperlink{class_b_s_t_a48f0ed03952ff9abad62a3cc7860c8ed}{in\+Order\+Print} ()
+\item 
+void \hyperlink{class_b_s_t_a9d6c671d711952c10efbd5ec15bfddb3}{post\+Order\+Print} ()
+\item 
+void \hyperlink{class_b_s_t_afaef8b47def700287599da5e1ed2c1ba}{pre\+Order\+Print} ()
+\item 
+bool \hyperlink{class_b_s_t_aa948f8978ea39ed68aaa47b57ad9dc54}{contains} (bstdata data)
+\item 
+bool \hyperlink{class_b_s_t_ad894d7205a1d489be7c22d2593e6ab43}{is\+B\+S\+T} ()
+\item 
+bstdata \hyperlink{class_b_s_t_ab3235327cc85e256b688b9cf0fd5be98}{minimum} ()
+\item 
+bstdata \hyperlink{class_b_s_t_a6a0e04e302ba0626368aed277d5718e8}{maximum} ()
+\item 
+void \hyperlink{class_b_s_t_aac47eb2f7bd78faec46e7fa71b123bba}{level\+Order\+Print} ()
+\item 
+bstdata \hyperlink{class_b_s_t_ad6d3f0c4417e91f72a6c4b09c17479d3}{get\+Node} (bstdata data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_b_s_t_a735f2e14e53f4fba3940ce547213cf93}{}\index{B\+S\+T@{B\+S\+T}!B\+S\+T@{B\+S\+T}}
+\index{B\+S\+T@{B\+S\+T}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{B\+S\+T()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ {\bf B\+S\+T}$<$ bstdata $>$\+::{\bf B\+S\+T} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a735f2e14e53f4fba3940ce547213cf93}
+The default Constructor. Sets the size to 0 and the root to null. \hypertarget{class_b_s_t_a5d3b6579e87f47d2a773c3e514051c77}{}\index{B\+S\+T@{B\+S\+T}!B\+S\+T@{B\+S\+T}}
+\index{B\+S\+T@{B\+S\+T}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{B\+S\+T(\+B\+S\+T$<$ bstdata $>$ const \&bst)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ {\bf B\+S\+T}$<$ bstdata $>$\+::{\bf B\+S\+T} (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+S\+T}$<$ bstdata $>$ const \&}]{bst}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a5d3b6579e87f47d2a773c3e514051c77}
+Copy constructor \hypertarget{class_b_s_t_a34395c7dc7e47d312933951b2781cebb}{}\index{B\+S\+T@{B\+S\+T}!````~B\+S\+T@{$\sim$\+B\+S\+T}}
+\index{````~B\+S\+T@{$\sim$\+B\+S\+T}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{$\sim$\+B\+S\+T()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ {\bf B\+S\+T}$<$ bstdata $>$\+::$\sim${\bf B\+S\+T} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a34395c7dc7e47d312933951b2781cebb}
+The default destructor. Deletes the entire tree. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_b_s_t_a55951a848cb22cb4a688b593b74f5103}{}\index{B\+S\+T@{B\+S\+T}!add@{add}}
+\index{add@{add}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{add(bstdata value)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ void {\bf B\+S\+T}$<$ bstdata $>$\+::add (
+\begin{DoxyParamCaption}
+\item[{bstdata}]{value}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a55951a848cb22cb4a688b593b74f5103}
+Adds a value to the tree
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to be added to the tree \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_b_s_t_aa948f8978ea39ed68aaa47b57ad9dc54}{}\index{B\+S\+T@{B\+S\+T}!contains@{contains}}
+\index{contains@{contains}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{contains(bstdata data)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ bool {\bf B\+S\+T}$<$ bstdata $>$\+::contains (
+\begin{DoxyParamCaption}
+\item[{bstdata}]{data}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_aa948f8978ea39ed68aaa47b57ad9dc54}
+Returns whether or not the tree contains the data passed to it
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The data to be searched for\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the tree contains the data being searched for 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_a7cda998300ca68d2f70c647b964557bb}{}\index{B\+S\+T@{B\+S\+T}!get\+Height@{get\+Height}}
+\index{get\+Height@{get\+Height}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{get\+Height()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ int {\bf B\+S\+T}$<$ bstdata $>$\+::get\+Height (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a7cda998300ca68d2f70c647b964557bb}
+\hypertarget{class_b_s_t_ad6d3f0c4417e91f72a6c4b09c17479d3}{}\index{B\+S\+T@{B\+S\+T}!get\+Node@{get\+Node}}
+\index{get\+Node@{get\+Node}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{get\+Node(bstdata data)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ bstdata {\bf B\+S\+T}$<$ bstdata $>$\+::get\+Node (
+\begin{DoxyParamCaption}
+\item[{bstdata}]{data}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_ad6d3f0c4417e91f72a6c4b09c17479d3}
+Searches for a returns a node that matches the one passed to it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The data to search for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The found node or null if not found. 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_a13590f0c072f798933deb57de7b25aad}{}\index{B\+S\+T@{B\+S\+T}!get\+Root@{get\+Root}}
+\index{get\+Root@{get\+Root}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{get\+Root()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ bstdata {\bf B\+S\+T}$<$ bstdata $>$\+::get\+Root (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a13590f0c072f798933deb57de7b25aad}
+Getter for the root of the tree
+
+\begin{DoxyReturn}{Returns}
+The root of the tree 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_a507229baa5487c690e191a26ab1550de}{}\index{B\+S\+T@{B\+S\+T}!get\+Size@{get\+Size}}
+\index{get\+Size@{get\+Size}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{get\+Size()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ int {\bf B\+S\+T}$<$ bstdata $>$\+::get\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a507229baa5487c690e191a26ab1550de}
+Getter for the size of the tree
+
+\begin{DoxyReturn}{Returns}
+The number of nodes in the tree 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_a48f0ed03952ff9abad62a3cc7860c8ed}{}\index{B\+S\+T@{B\+S\+T}!in\+Order\+Print@{in\+Order\+Print}}
+\index{in\+Order\+Print@{in\+Order\+Print}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{in\+Order\+Print()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ void {\bf B\+S\+T}$<$ bstdata $>$\+::in\+Order\+Print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a48f0ed03952ff9abad62a3cc7860c8ed}
+Prints the contents of the tree in order from least to greatest \hypertarget{class_b_s_t_ad894d7205a1d489be7c22d2593e6ab43}{}\index{B\+S\+T@{B\+S\+T}!is\+B\+S\+T@{is\+B\+S\+T}}
+\index{is\+B\+S\+T@{is\+B\+S\+T}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{is\+B\+S\+T()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ bool {\bf B\+S\+T}$<$ bstdata $>$\+::is\+B\+S\+T (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_ad894d7205a1d489be7c22d2593e6ab43}
+\hypertarget{class_b_s_t_aaf5701521d37dfb3a6ecc3563ab77fbf}{}\index{B\+S\+T@{B\+S\+T}!is\+Empty@{is\+Empty}}
+\index{is\+Empty@{is\+Empty}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{is\+Empty()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ bool {\bf B\+S\+T}$<$ bstdata $>$\+::is\+Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_aaf5701521d37dfb3a6ecc3563ab77fbf}
+Returns true if the tree is empty
+
+\begin{DoxyReturn}{Returns}
+True if the tree is empty 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_aac47eb2f7bd78faec46e7fa71b123bba}{}\index{B\+S\+T@{B\+S\+T}!level\+Order\+Print@{level\+Order\+Print}}
+\index{level\+Order\+Print@{level\+Order\+Print}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{level\+Order\+Print()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ void {\bf B\+S\+T}$<$ bstdata $>$\+::level\+Order\+Print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_aac47eb2f7bd78faec46e7fa71b123bba}
+Prints the entire tree in level order \hypertarget{class_b_s_t_a6a0e04e302ba0626368aed277d5718e8}{}\index{B\+S\+T@{B\+S\+T}!maximum@{maximum}}
+\index{maximum@{maximum}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{maximum()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ bstdata {\bf B\+S\+T}$<$ bstdata $>$\+::maximum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a6a0e04e302ba0626368aed277d5718e8}
+Getter for the maximum value in the tree
+
+\begin{DoxyReturn}{Returns}
+The maximum value in the tree 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_ab3235327cc85e256b688b9cf0fd5be98}{}\index{B\+S\+T@{B\+S\+T}!minimum@{minimum}}
+\index{minimum@{minimum}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{minimum()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ bstdata {\bf B\+S\+T}$<$ bstdata $>$\+::minimum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_ab3235327cc85e256b688b9cf0fd5be98}
+Getter for the minimum value in the tree
+
+\begin{DoxyReturn}{Returns}
+The minimum value in the tree 
+\end{DoxyReturn}
+\hypertarget{class_b_s_t_a9d6c671d711952c10efbd5ec15bfddb3}{}\index{B\+S\+T@{B\+S\+T}!post\+Order\+Print@{post\+Order\+Print}}
+\index{post\+Order\+Print@{post\+Order\+Print}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{post\+Order\+Print()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ void {\bf B\+S\+T}$<$ bstdata $>$\+::post\+Order\+Print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a9d6c671d711952c10efbd5ec15bfddb3}
+Prints the entire tree in post order \hypertarget{class_b_s_t_afaef8b47def700287599da5e1ed2c1ba}{}\index{B\+S\+T@{B\+S\+T}!pre\+Order\+Print@{pre\+Order\+Print}}
+\index{pre\+Order\+Print@{pre\+Order\+Print}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{pre\+Order\+Print()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata $>$ void {\bf B\+S\+T}$<$ bstdata $>$\+::pre\+Order\+Print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_afaef8b47def700287599da5e1ed2c1ba}
+Prints the entire tree in pre order \hypertarget{class_b_s_t_a66b09c3fbfacaa49145a510084a10aad}{}\index{B\+S\+T@{B\+S\+T}!remove@{remove}}
+\index{remove@{remove}!B\+S\+T@{B\+S\+T}}
+\subsubsection[{remove(bstdata value)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class bstdata$>$ void {\bf B\+S\+T}$<$ bstdata $>$\+::remove (
+\begin{DoxyParamCaption}
+\item[{bstdata}]{value}
+\end{DoxyParamCaption}
+)}\label{class_b_s_t_a66b09c3fbfacaa49145a510084a10aad}
+Removes the node containing the data passed to it assuming the data is in the tree
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The data to be removed from the tree \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/fnord/\+Documents/\+C\+P\+P/22\+C\+Project/22\+C\+Project/\hyperlink{_b_s_t_8h}{B\+S\+T.\+h}\end{DoxyCompactItemize}
