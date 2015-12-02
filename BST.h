@@ -286,6 +286,8 @@ void BST<bstdata>::printInOrder(Nodeptr root) {
         printInOrder(root->left);
     }
     cout << root->data << endl;
+    cout << setfill('-') << setw(80) << "-" << endl;
+    cout << setfill(' ');
     if (root->right != NULL) {
         printInOrder(root->right);
     }

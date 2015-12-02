@@ -10,6 +10,7 @@
 #define OMRA_hpp
 
 #include <stdio.h>
+#include <iomanip>
 #include "BST.h"
 
 class OMRA {
@@ -56,7 +57,7 @@ private:
         }
         
         friend ostream& operator<< (ostream& os, Country const *rightCountry){
-            os << rightCountry->countryName << " is rank " << rightCountry->rank << " with " << rightCountry->gold << " gold medals, " << rightCountry->silver << " silver medals, and " << rightCountry->bronze << " bronze medals.";
+            os << setw(4) << rightCountry->rank << setw(32) << rightCountry->countryName << setw(6) << rightCountry->gold << " Gold" << setw(6) << rightCountry->silver << " Silver" << setw(6) << rightCountry->bronze << " Bronze";
             return os;
         }
         
