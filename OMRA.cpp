@@ -301,6 +301,12 @@ void OMRA::printNode() { // Option 2. SEARCH
         int rank = 0;
         cout << "Please enter rank:  ";
         cin >> rank;
+        while (cin.fail()) {
+            cout << "Please enter a number: ";
+            cin.clear();
+            cin.ignore();
+            cin >> rank;
+        }
         printNodeRank(rank);
     }
     else {
@@ -446,6 +452,12 @@ void OMRA::removeCountry() { // Option 5
         int rank = 0;
         cout << "Please enter rank:  ";
         cin >> rank;
+        while (cin.fail()) {
+            cout << "Please enter a number: ";
+            cin.clear();
+            cin.ignore();
+            cin >> rank;
+        }
         Country *dummyRank = new Country(" ", rank, 0, 0, 0);
         Country *foundCountry = nullptr;
 		dummyRank->sortSwitch = dummyRank->rankComparison;

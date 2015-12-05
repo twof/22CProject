@@ -16,3 +16,4 @@ TODO:
 - Update everything so that it uses file io
 - Add in default file to save and read from
 - Add function switch to country output operator
+- Implement spellchecking
