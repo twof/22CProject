@@ -13,7 +13,8 @@ TODO:
 - [DONE]Fix Remove. Currently, countries are getting deleted from countrytree but not rank tree
 - [DONE]Add documentation to every method and class.
 - [DONE]Test every menu option
+- [DONE]Implement spellchecking
 - Update everything so that it uses file io
 - Add in default file to save and read from
 - Add function switch to country output operator
-- Implement spellchecking
+

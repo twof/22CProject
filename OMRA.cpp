@@ -89,6 +89,46 @@ void OMRA::cohesiveRemove(Country *country){
     recalculateRank();
 }
 
+double stringSimilarity(string origin, string comparison){
+    //matrix with size of strings
+    int matrix [origin.length() + 1][comparison.length() + 1];
+    
+    //set everything to 0
+    for (int i = 0; i <= origin.length(); i++) {
+        for (int j = 0; j <= comparison.length(); j++) {
+            matrix[i][j] = 0;
+        }
+    }
+    
+    for (int i = 1; i <= origin.length(); i++) {
+        matrix[i][0] = i;
+    }
+    
+    for (int i = 1; i <= comparison.length(); i++) {
+        matrix[0][i] = i;
+    }
+    
+    for (int i = 1; i <= origin.length(); i++) {
+        for (int j = 1; j <= comparison.length(); j++) {
+            if (origin[i-1] == comparison[j-1]) {
+                matrix[i][j] = matrix[i-1][j-1];
+            }else{
+                matrix[i][j] = min({
+                    matrix[i-1][j]+1,
+                    matrix[i][j-1]+1,
+                    matrix[i-1][j-1] +1
+                });
+            }
+        }
+    }
+    
+    
+    double averageLen = (origin.length()+comparison.length())/2;
+    double matrixVal = matrix[origin.length()][comparison.length()];
+    
+    return matrixVal/averageLen;
+}
+
 //Public'
 
 /**
@@ -336,6 +376,9 @@ void OMRA::edit() { // Option 3
     
     Country *dummyCountry = new Country(name, 0, 0, 0, 0);
     Country *foundCountry;
+    const float DIFFERENCE_THRESHHOLD = .20;
+    vector<Country*> corrections;
+    int correctionChoice = -1;
 	dummyCountry->sortSwitch = dummyCountry->nameComparison;
 
     if (countryTree.contains(dummyCountry)) {
@@ -368,6 +411,49 @@ void OMRA::edit() { // Option 3
             cin >> bronze;
             
             addNewCountry(country, gold, silver, bronze);
+        }
+    }else{
+        for (int i = 0; i < rankList.size(); i++) {
+            if(stringSimilarity(name, rankList[i]->countryName) < DIFFERENCE_THRESHHOLD){
+                corrections.push_back(rankList[i]);
+            }
+        }
+        if (corrections.size() != 0) {
+            int i = 0;
+            cout << "Did you mean one of the following?" << endl;
+            for (i; i < corrections.size(); i++) {
+                cout << "(" << i+1 << ") " << corrections[i] << endl;
+            }
+            cout << "(0) None of the above." << endl;
+            cout << "Enter a choice here: ";
+            cin >> correctionChoice;
+            while (cin.fail() || correctionChoice > corrections.size() || correctionChoice < 0) {
+                cout << "Please enter a number between 0 and " << corrections.size() << ": ";
+                cin.clear();
+                cin.ignore();
+                cin >> correctionChoice;
+            }
+            
+            if (correctionChoice != 0) {
+                cohesiveRemove(corrections[i-1]);
+                
+                string country;
+                int gold, silver, bronze;
+                
+                cout << "Insert the necessary information for '" << name << "'when prompted." << endl;
+                cout << "Name of Country:  ";
+                cin >> country;
+                cout << "Gold Medals earned:  ";
+                cin >> gold;
+                cout << "Silver Medals earned:  ";
+                cin >> silver;
+                cout << "Bronze Medals earned:  ";
+                cin >> bronze;
+                
+                addNewCountry(country, gold, silver, bronze);
+            }
+        }else{
+            cout << "Country not found." << endl;
         }
     }
     
@@ -483,6 +569,9 @@ void OMRA::removeCountry() { // Option 5
         cin >> name;
         Country *dummyCountry = new Country(name, 0, 0, 0, 0);
         Country *foundCountry = nullptr;
+        const float DIFFERENCE_THRESHHOLD = .20;
+        vector<Country*> corrections;
+        int choice = -1;
         
 		dummyCountry->sortSwitch = dummyCountry->nameComparison;
         if (countryTree.contains(dummyCountry)) {
@@ -501,7 +590,36 @@ void OMRA::removeCountry() { // Option 5
                 cohesiveRemove(foundCountry);
                 cout << endl << foundCountry->countryName << " has been removed." << endl;
 			}
-		}
+        }else{
+            for (int i = 0; i < rankList.size(); i++) {
+                if(stringSimilarity(name, rankList[i]->countryName) < DIFFERENCE_THRESHHOLD){
+                    corrections.push_back(rankList[i]);
+                }
+            }
+            if (corrections.size() != 0) {
+                int i = 0;
+                cout << "Did you mean one of the following?" << endl;
+                for (i; i < corrections.size(); i++) {
+                    cout << "(" << i+1 << ") " << corrections[i] << endl;
+                }
+                cout << "(0) None of the above." << endl;
+                cout << "Enter a choice here: ";
+                cin >> choice;
+                while (cin.fail() || choice > corrections.size() || choice < 0) {
+                    cout << "Please enter a number between 0 and " << corrections.size() << ": ";
+                    cin.clear();
+                    cin.ignore();
+                    cin >> choice;
+                }
+                
+                if (choice != 0) {
+                    cout << corrections[i-1] << " has been removed successfully." << endl;
+                    cohesiveRemove(corrections[i-1]);
+                }
+            }else{
+                cout << "Country not found." << endl;
+            }
+        }
     }
     
     charChoice = 'a';
@@ -547,12 +665,37 @@ void OMRA::printNodeRank(int value) { // can be used to PRINT node and SEARCH tr
  */
 void OMRA::printNodeCountry(string value) { // can be used to PRINT node and SEARCH tree
     Country *dummyCountry = new Country(value, 0, 0, 0, 0);
+    const float DIFFERENCE_THRESHHOLD = .20;
+    vector<Country*> corrections;
+    int choice = -1;
+    
     dummyCountry->sortSwitch = dummyCountry->nameComparison;
     if (countryTree.contains(dummyCountry)) {
         cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
         cout << countryTree.getNode(dummyCountry) << endl;
         cout << setfill('-') << setw(80) << "-" << endl << setfill(' ');
+    }else{
+        for (int i = 0; i < rankList.size(); i++) {
+            if(stringSimilarity(value, rankList[i]->countryName) < DIFFERENCE_THRESHHOLD){
+                corrections.push_back(rankList[i]);
+            }
+        }
+        if (corrections.size() != 0) {
+            cout << "Did you mean one of the following?" << endl;
+            for (int i = 0; i < corrections.size(); i++) {
+                cout << "(" << i+1 << ") " << corrections[i] << endl;
+            }
+            cout << "(0) None of the above." << endl;
+            cout << "Enter a choice here: ";
+            cin >> choice;
+            while (cin.fail() || choice > corrections.size() || choice < 0) {
+                cout << "Please enter a number between 0 and " << corrections.size() << ": ";
+                cin.clear();
+                cin.ignore();
+                cin >> choice;
+            }
+        }else{
+            cout << "Country not found." << endl;
+        }
     }
-    else
-        cout << "Item not found." << endl;
 }
