@@ -5,10 +5,23 @@
 //  Created by fnord on 11/24/15.
 //  Copyright © 2015 fnord. All rights reserved.
 //
+#include <stdio.h>  /* defines FILENAME_MAX in exists() */
+#include <string>
+
+#ifdef _WIN32
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#define windows true
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#define windows false
+#endif
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <sys/stat.h>
 
 #include "OMRA.hpp"
 
@@ -129,21 +142,48 @@ double stringSimilarity(string origin, string comparison){
     return matrixVal/averageLen;
 }
 
+inline bool exists(const string &name) { // check to see if file exists
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) == 0);
+}
+
 //Public'
 
 /**
- *  Default constructor. Doesn't do anything.
+ *  Default constructor. Reads from the default file in the working directory or creats it if it doesn't already exist.
  */
-OMRA::OMRA(){
+OMRA::OMRA() {
+    string filePath = "inputOutput.txt";
     
+    //If it exists, read from it
+    if (exists(filePath)) {
+        initializeFromFile(filePath);
+    }else{ //otherwise, create a new file to write to
+        ofstream file(filePath);
+        string data("");
+        file << data;
+    }
 }
 
+
 /**
- *  Default destructor. Doesn't do anything.
+ *  Default destructor. Exports to default file in the working directory.
  */
-OMRA::~OMRA(){
+OMRA::~OMRA() {
+    string filePath = "inputOutput.txt";
     
+    //If it exists, write to it
+    if (exists(filePath)) {
+        exportToFile(filePath); // save changes to file
+    }else{ //otherwise, create a new file and write to it
+        ofstream file(filePath);
+        string data("");
+        file << data;
+        exportToFile(filePath); // save changes to file
+    }
 }
+
+
 
 /**
  *  Clears the screen by carriage returning a bunch of times.
@@ -226,15 +266,21 @@ bool OMRA::initializeFromFile(string filePath){
  *
  *  @return Returns true if the file was opened succesfully.
  */
-bool OMRA::exportToFile(string filePath){
-    ofstream saveFile;
-    saveFile.open(filePath);
-    if(saveFile.is_open()){
+bool OMRA::exportToFile(string filePath) {
+    ofstream saveFileUser;
+    saveFileUser.open(filePath); // in user's directory
+    ofstream saveFileProgram;
+    saveFileProgram.open("inputOutput.txt"); // in our program
+    
+    // save to file in user's directory & our program (for back-up)
+    if (saveFileUser.is_open() && saveFileProgram.is_open()) {
         for (int i = 0; i < rankList.size(); i++) {
-            saveFile << rankList[i]->countryName << ", " << rankList[i]->rank << ", " << rankList[i]->gold << ", " << rankList[i]->silver << ", " << rankList[i]->bronze << endl;
+            saveFileUser << rankList[i]->countryName << ", " << rankList[i]->rank << ", " << rankList[i]->gold << ", " << rankList[i]->silver << ", " << rankList[i]->bronze << endl;
+            saveFileProgram << rankList[i]->countryName << ", " << rankList[i]->rank << ", " << rankList[i]->gold << ", " << rankList[i]->silver << ", " << rankList[i]->bronze << endl;
         }
         return true;
-    }else{
+    }
+    else {
         return false;
     }
 }
@@ -421,7 +467,7 @@ void OMRA::edit() { // Option 3
         if (corrections.size() != 0) {
             int i = 0;
             cout << "Did you mean one of the following?" << endl;
-            for (i; i < corrections.size(); i++) {
+            for (; i < corrections.size(); i++) {
                 cout << "(" << i+1 << ") " << corrections[i] << endl;
             }
             cout << "(0) None of the above." << endl;
@@ -599,7 +645,7 @@ void OMRA::removeCountry() { // Option 5
             if (corrections.size() != 0) {
                 int i = 0;
                 cout << "Did you mean one of the following?" << endl;
-                for (i; i < corrections.size(); i++) {
+                for (; i < corrections.size(); i++) {
                     cout << "(" << i+1 << ") " << corrections[i] << endl;
                 }
                 cout << "(0) None of the above." << endl;
